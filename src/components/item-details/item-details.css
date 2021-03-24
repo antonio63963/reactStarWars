@@ -1,0 +1,28 @@
+.img-card {
+  max-width: 200px;
+  height: 200px;
+  /* object-fit: cover; */
+
+}
+.list-group-item.noBG {
+  background: none;
+  border-color: #3f3f3f;
+  border-width: 0 0 1px 0;
+  border-radius: 0;
+}
+.card-item {
+  position: relative;
+}
+.loader-wrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(123, 45, 78, .3);
+
+
+}

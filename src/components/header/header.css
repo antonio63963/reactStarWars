@@ -1,0 +1,23 @@
+
+
+.logoWrapper {
+  display: flex;
+}
+.logoWrapper .SW-left {
+  font-size: 20px;
+  margin: 0;
+  line-height: 1;
+ 
+}
+.SW-left:last-child {
+  font-size: 18px;
+  line-height: .4
+}
+.logoWrapper .SW-right {
+  font-family: 'Anton', sans-serif;
+  color: teal;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.1;
+  font-size: 32px;
+}

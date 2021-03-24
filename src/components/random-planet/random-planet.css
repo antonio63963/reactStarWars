@@ -1,0 +1,12 @@
+.img-card {
+  max-width: 200px;
+  object-fit: cover;
+
+}
+.list-group-item.noBG {
+  background: none;
+  border-color: #3f3f3f;
+  border-width: 0 0 1px 0;
+  border-radius: 0;
+  list-style-type: none;
+}
