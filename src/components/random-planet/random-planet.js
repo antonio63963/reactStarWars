@@ -5,6 +5,10 @@ import Loader from '../loader/loader'
 import ErrorIndicator from '../error-indicator'
 
 class RandomPlanet extends React.Component  {
+  static defaultProps = {
+    updateInterval: 3000
+  }
+
   apiService = new ApiService()
   state = {
     planet: {},
@@ -14,7 +18,8 @@ class RandomPlanet extends React.Component  {
   interval = null
 
   componentDidMount() {
-    this.interval = setInterval(this.updatePlanet, 10000)
+    const { updateInterval } = this.props
+    this.interval = setInterval(this.updatePlanet, updateInterval)
   }
 
   componentWillUnmount() {

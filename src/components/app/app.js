@@ -1,11 +1,22 @@
 import React from 'react'
 import Header from '../header'
 import RandomPlanet from '../random-planet'
-import PeoplePage from '../peoplePage'
 import './app.css'
-import ItemList from '../item-list'
-import ItemDetails from '../item-details'
 import Api from '../../servises/api'
+import ErrorBoundry from '../errorBoundry'
+import {
+  PeoplePage,
+  StarshipPage,
+  PlanetPage
+} from '../pages'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+
+
+
+import {
+  Provider,
+} from '../api-service-context'
+import { StarshipDetails } from '../sw-components'
 
 class App extends React.Component {
 
@@ -29,25 +40,35 @@ class App extends React.Component {
   }
 
   render() {
+   
     return (
-      <div className="container py-3">
-        <Header />
-        <RandomPlanet />
+      <ErrorBoundry>
+        <Provider value={this.apiServise}>
+          <Router>
+            <div className="container py-3">
+              <Header />
+              <Route path="/people/:id"
+                      render={() => {
+                        return <h1>It's very very</h1>
+                      }}
+              />
+              <RandomPlanet updateInterval={10000} />
+              <Route exact path="/" render={ () => <h2>Welcome!!!</h2> }/>
+              <Route path="/people/" component={PeoplePage}/>
+              <Route path="/planet/" component={PlanetPage}/>
+              <Route path="/starships/" exact component={StarshipPage}/>
+          
+              <Route path="/starships/:id" 
+                render={ ({match}) => {
+                  const id = match.params.id
+                  return <StarshipDetails itemId={ id }/>
+                } }
+              />
+            </div>
+          </Router>    
+        </Provider>
 
-        <PeoplePage />
-     
-
-        <div className="row my-2">
-          <div className="col-md-3" >
-            <ItemList onSelectedItem={ this.onSelectedPlanet }
-            getData={ this.apiServise.getAllPlanets }/>
-          </div>
-          <div className="col-md-9">
-            <ItemDetails itemId={ this.state.selectedPlanet } 
-            getData={ this.apiServise.getPlanet }/>
-          </div>
-        </div>
-      </div>
+      </ErrorBoundry>
     )
   }
 }

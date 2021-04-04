@@ -21,3 +21,16 @@
   line-height: 1.1;
   font-size: 32px;
 }
+Link {
+  text-decoration: none;
+  text-decoration-color: none;
+  text-decoration-line:none;
+}
+Link:hover {
+  text-decoration: none;
+}
+.header .logoWrapper h1:hover {
+
+  text-decoration-color: none;
+  text-decoration-line:none;
+}

@@ -1,17 +1,16 @@
-
 export default class ApiService {
 
   baseOfUrl = 'https://swapi.dev/api/';
 
   async getResource(url) {
-   const res = await fetch(url);
-   if(!res.ok) {
-     throw new Error(`ooooooy! ${res.status}`)
-   }
-   return await res.json()
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`ooooooy! ${res.status}`)
+    }
+    return await res.json()
   }
 
-  getAllPeople = async() => {
+  getAllPeople = async () => {
     const resArr = await this.getResource(`${this.baseOfUrl}people/`)
     return resArr.results.map(person => this._transformPerson(person))
     // .map( item => this._transformPerson(item))
@@ -25,7 +24,7 @@ export default class ApiService {
   //PLANETS
   getAllPlanets = async () => {
     const resArr = await this.getResource(`${this.baseOfUrl}planets/`)
-    return resArr.results.map( item => this._transformPlanet(item))
+    return resArr.results.map(item => this._transformPlanet(item))
   }
   getPlanet = async (id) => {
     const planet = await this.getResource(`${this.baseOfUrl}planets/${id}`)
@@ -35,10 +34,11 @@ export default class ApiService {
   // STARSHIPS
   getAllShips = async () => {
     const resArr = await this.getResource(`${this.baseOfUrl}starships/`)
-    return resArr.results.map( item => this._transformShip(item))
+    return resArr.results.map(item => this._transformShip(item))
   }
   getShip = async (id) => {
-    return await this.getResource(`${this.baseOfUrl}starships/${id}`)
+    const res = await this.getResource(`${this.baseOfUrl}starships/${id}`)
+    return this._transformShip(res)
   }
 
   extractId(item) {
@@ -50,11 +50,10 @@ export default class ApiService {
     return {
       id: this.extractId(planet),
       name: planet.name,
-      description: {
-        population: planet.population,
-        rotationPeriod: planet.rotation_period,
-        diameter: planet.diameter,
-      },
+      population: planet.population,
+      rotationPeriod: planet.rotation_period,
+      diameter: planet.diameter,
+      waterSurfaces: planet.surface_water,
       img: `https://starwars-visualguide.com/assets/img/planets/${this.extractId(planet)}.jpg`
     }
   }
@@ -62,11 +61,9 @@ export default class ApiService {
     return {
       id: this.extractId(person),
       name: person.name,
-      description: {
-        gender: person.gender,
-        birthday: person.birth_year,
-        eyeColor: person.eye_color,
-      },
+      gender: person.gender,
+      birthday: person.birth_year,
+      eyeColor: person.eye_color,
       img: `https://starwars-visualguide.com/assets/img/characters/${this.extractId(person)}.jpg`
     }
   }
@@ -74,15 +71,13 @@ export default class ApiService {
     return {
       id: this.extractId(ship),
       name: ship.name,
-      diescription: {
-        model: ship.model,
-        manufacturer: ship.manufacturer,
-        costInCredits: ship.costInCredits,
-        length: ship.length,
-        crew: ship.crew,
-        passengers: ship.passengers,
-        cargoCopacity: ship.cargoCopacity,
-      },
+      model: ship.model,
+      manufacturer: ship.manufacturer,
+      costInCredits: ship.cost_in_credits,
+      length: ship.length,
+      crew: ship.crew,
+      passengers: ship.passengers,
+      cargoCopacity: ship.cargoCopacity,
       img: `https://starwars-visualguide.com/assets/img/starships/${this.extractId(ship)}.jpg`
     }
   }

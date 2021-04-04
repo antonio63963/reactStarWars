@@ -2,9 +2,20 @@ import React from 'react'
 import './item-details.css'
 import Loader from '../loader'
 
+const Record = ({  field, value, item}) => {
+  return (
+   <div>
+      <li className="list-group-item noBG">
+        { value }: { item[field] }
+      </li>
+   </div>
+  )
+}
+
+
 class ItemDetails extends React.Component {
   state = {
-    person: null,
+    item: null,
     isLoader: false
   }
 
@@ -23,23 +34,22 @@ class ItemDetails extends React.Component {
   }
 
   updateItem() {
-    console.log(this.props.getData);
-    const { itemId } = this.props
+    const { itemId, getData } = this.props
     if(!itemId) return 
-    this.props.getData(itemId)
-    .then(person => {
-      this.setState({ person, isLoader: false })
+    getData(itemId)
+    .then(item => {
+      this.setState({ item, isLoader: false })
     })
   }
 
   render() {
-    if(!this.state.person) {
-      return <span>Select a person from the list</span>
+    if(!this.state.item) {
+      return <span>Select an item from the list</span>
     }
-    const content = this.state.person 
-      ? <ViewItem person={ this.state.person }/>
+    const content = this.state.item 
+      ? <ViewItem item={ this.state.item } prop={ this.props.children }/>
       : null
-    const isLoader = this.state.person && this.state.isLoader
+    const isLoader = this.state.item && this.state.isLoader
       ? (<div className="loader-wrapper">
       <Loader />
       </div>)
@@ -53,18 +63,21 @@ class ItemDetails extends React.Component {
     )
   }
 }
+export { Record };
 export default ItemDetails
 
-function ViewItem({person}) {
+function ViewItem({item, prop}) {
   // const { name, gender, birthday, eyeColor, img } = person
-  const {name, description, img} = person
-  const itemElems = Object.entries(description)
-    .map((item, index) => {
-      return (
-        <li className="list-group-item noBG"
-        key={ index }>{ item[0] }: { item[1] }</li>
-      )
-    })
+  const {name, img} = item
+  // const {name, description, img} = item
+  
+  // const itemElems = Object.entries(description)
+  //   .map((item, index) => {
+  //     return (
+  //       <li className="list-group-item noBG"
+  //       key={ index }>{ item[0] }: { item[1] }</li>
+  //     )
+  //   })
   return (
     <React.Fragment>
       <div className="">
@@ -73,7 +86,10 @@ function ViewItem({person}) {
         <div className="card-body px-20 py-20">
           <h5 className="card-title">{ name }</h5>
           <ul className="list-group list-group-horizontal-xxl">
-           { itemElems }
+            { React.Children.map(prop, (child) => {
+         
+                return  React.cloneElement(child, {item})
+            }) }
           </ul>
         </div>
     </React.Fragment>
